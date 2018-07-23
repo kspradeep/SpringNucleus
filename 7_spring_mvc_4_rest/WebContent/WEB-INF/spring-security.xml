@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:security="http://www.springframework.org/schema/security"
+       xmlns:p="http://www.springframework.org/schema/p" 
+       	xmlns:context="http://www.springframework.org/schema/context"
+       	
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                            http://www.springframework.org/schema/beans/spring-beans.xsd
+                             http://www.springframework.org/schema/context
+                             http://www.springframework.org/schema/context/spring-context-4.0.xsd
+                            http://www.springframework.org/schema/security 
+                            http://www.springframework.org/schema/security/spring-security-4.0.xsd">
+	
+	
+		<context:property-placeholder
+		location="WEB-INF/application.properties" />
+	
+	<!-- Spring LDAP Security starts -->
+								
+		<security:ldap-server url="${ldap.url}/${ldap.base}" />
+		
+		<security:http realm="NEWMIS" >
+			 <security:intercept-url pattern="/**" access="hasRole('ROLE_ALLUSERS')" /> 
+			   <security:access-denied-handler error-page="/403page" />
+			<security:http-basic/>
+			
+		</security:http>
+	
+		<security:authentication-manager>
+			<security:ldap-authentication-provider
+				user-dn-pattern="uid={0},ou=people"
+			    group-search-base="ou=groups,ou=people"
+				group-search-filter="member={0}" />
+		</security:authentication-manager>  
+		
+	
+			<bean id="contextSource" class="org.springframework.ldap.core.support.LdapContextSource">
+				<property name="url" value="${ldap.url}" />
+				<property name="base" value="${ldap.base}" />
+				<property name="userDn" value="${ldap.userDn}" />
+				<property name="password" value="${ldap.password}" />
+			</bean>
+	
+		<bean id="ldapTemplate" class="org.springframework.ldap.core.LdapTemplate">
+			<constructor-arg ref="contextSource" />
+		</bean> 
+		<!-- LDAP Configuration -->
+
+</beans>
+

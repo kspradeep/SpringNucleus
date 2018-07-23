@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:security="http://www.springframework.org/schema/security"
+	
+	xsi:schemaLocation="
+	
+	    http://www.springframework.org/schema/beans 
+	    http://www.springframework.org/schema/beans/spring-beans.xsd
+        
+        http://www.springframework.org/schema/aop 
+        http://www.springframework.org/schema/aop/spring-aop.xsd
+        
+        http://www.springframework.org/schema/security 
+        http://www.springframework.org/schema/security/spring-security-4.0.xsd
+      
+	
+        http://www.springframework.org/schema/beans     
+        http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context-4.0.xsd
+        http://www.springframework.org/schema/mvc
+        http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd">
+        
+        
+	<context:component-scan base-package="com.thbs.mis.controller,com.thbs.mis.exception" />
+	<mvc:annotation-driven />
+	
+	<!-- <context:property-placeholder
+		location="WEB-INF/interest.properties" /> -->
+	
+	<!-- Rest AOP Logger starts -->  
+	<aop:aspectj-autoproxy />
+	<bean id="serviceLogger" class="com.thbs.mis.log.RestAccessLogger" />
+	<!-- Rest AOP Logger ends-->
+	
+	
+	<!-- Global security starts -->
+		<!-- 	<security:global-method-security
+				pre-post-annotations="enabled" /> -->
+	<!-- Global security ends -->
+	
+	
+	<!-- Spring LDAP Security starts -->
+			<!-- 					
+				<security:ldap-server url="${ldap.url}/${ldap.base}" />
+				
+				<security:http realm="NEWMIS">
+					 <security:intercept-url pattern="/**" access="hasRole('ROLE_ALLUSERS')" /> 
+					<security:http-basic></security:http-basic>
+				</security:http>
+			
+				<security:authentication-manager>
+					<security:ldap-authentication-provider
+						user-dn-pattern="uid={0},ou=people"
+					    group-search-base="ou=groups,ou=people"
+						group-search-filter="member={0}" />
+				</security:authentication-manager>  
+				
+			
+					<bean id="contextSource" class="org.springframework.ldap.core.support.LdapContextSource">
+						<property name="url" value="${ldap.url}" />
+						<property name="base" value="${ldap.base}" />
+						<property name="userDn" value="${ldap.userDn}" />
+						<property name="password" value="${ldap.password}" />
+					</bean>
+			
+				<bean id="ldapTemplate" class="org.springframework.ldap.core.LdapTemplate">
+					<constructor-arg ref="contextSource" />
+				</bean>  -->
+		<!-- LDAP Configuration -->
+	
+	
+	
+	
+	
+	<!-- Spring Security HTTP basics starts -->
+						<!-- <security:http auto-config="true" >
+							<security:intercept-url pattern="/**" access="hasRole('ROLE_USER')" />
+							<security:http-basic></security:http-basic>
+							<security:logout logout-success-url="/logout" />
+						</security:http>
+					
+					    <security:authentication-manager>
+						  <security:authentication-provider>
+						  	 <security:user-service>
+								<security:user name="2373" password="199@Demo2014" authorities="ROLE_USER" />
+						    </security:user-service>
+						  </security:authentication-provider>
+						</security:authentication-manager>  -->
+	<!-- Spring Security ends -->
+	
+  </beans>
